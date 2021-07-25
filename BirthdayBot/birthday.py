@@ -6,8 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 from requests.models import Response
 
-import utils
-
+from .utils import convert_expression_to_hashtag
 
 def get_seoul_current_date() -> Tuple[str, str]:
     seoul_timezone = pytz.timezone("Asia/Seoul")
@@ -81,8 +80,8 @@ class Birthday:
 
     def generate_birthday_message(birthday: dict) -> str:
         return f"Happy {birthday['idolName']} day ! \U0001F973\U0001F382\n\n" \
-            f"{utils.convert_expression_to_hashtag(birthday['idolName'])} " \
-            f"{utils.convert_expression_to_hashtag(birthday['groupName'])}"
+            f"{convert_expression_to_hashtag(birthday['idolName'])} " \
+            f"{convert_expression_to_hashtag(birthday['groupName'])}"
 
 
 if __name__ == "__main__":
