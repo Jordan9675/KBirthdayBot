@@ -3,7 +3,7 @@ from BirthdayBot.twitter_bot import TwitterBot
 
 bot = TwitterBot()
 
-if __name__ == "__main__":
+if __name__ == "__main__" and not bot.has_posted_today:
     birthdays = Birthday.get_todays_birthdays()
     for birthday in birthdays:
         message = Birthday.generate_birthday_message(birthday)
