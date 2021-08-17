@@ -1,22 +1,11 @@
-from datetime import datetime
-from typing import Tuple
-
-import pytz
 import requests
 from bs4 import BeautifulSoup
 from requests.models import Response
 
-from .utils import convert_expression_to_hashtag
-
-def get_seoul_current_date() -> Tuple[str, str]:
-    seoul_timezone = pytz.timezone("Asia/Seoul")
-    current_datetime = datetime.now(seoul_timezone)
-
-    return str(current_datetime.month), str(current_datetime.day)
-
+from .utils import convert_expression_to_hashtag, get_seoul_current_date
 
 BIRTHDAY_URL = "https://dbkpop.com/db/k-pop-birthdays"
-MONTH, DAY = get_seoul_current_date()
+seoul_current_month, seoul_current_day = get_seoul_current_date()
 
 
 class Birthday:
@@ -48,17 +37,18 @@ class Birthday:
         return {
             "groupName": column_values[1].text,
             "idolName": column_values[2].text,
-            "birthYear": column_values[4].text,
-            "birthMonth": column_values[5].text,
-            "birthDay": column_values[6].text,
-            "age": column_values[7].text,
+            "birthYear": int(column_values[4].text),
+            "birthMonth": int(column_values[5].text),
+            "birthDay": int(column_values[6].text),
+            "age": int(column_values[7].text),
             "gender": column_values[8].text
         }
 
     @staticmethod
     def _birthday_matches_day_and_month(birthday: dict) -> bool:
         """Check whether a given birthday matches today's date."""
-        return birthday["birthMonth"] == MONTH and birthday["birthDay"] == DAY
+        return (birthday["birthMonth"] == seoul_current_month and 
+                birthday["birthDay"] == seoul_current_day)
 
     @staticmethod
     def get_todays_birthdays() -> list:
@@ -87,7 +77,7 @@ class Birthday:
 
 
 if __name__ == "__main__":
-    print(DAY, MONTH)
+    print(seoul_current_day, seoul_current_month)
     today = Birthday.get_todays_birthdays()
     print(today)
     for ppl in today:
