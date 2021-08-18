@@ -66,10 +66,10 @@ def get_birthdays() -> list:
         columns_value) for columns_value in columns_values]
 
 
-def generate_birthday_message(birthday: dict) -> str:
-    return f"Happy {birthday['idolName']} day ! \U0001F973\U0001F382\n\n" \
-        f"{convert_expression_to_hashtag(birthday['idolName'])}" \
-        f"{convert_expression_to_hashtag(birthday['groupName'])}" \
+def generate_birthday_message(idol_name: str, idol_group: str) -> str:
+    return f"Happy {idol_name} day ! \U0001F973\U0001F382\n\n" \
+        f"{convert_expression_to_hashtag(idol_name)}" \
+        f"{convert_expression_to_hashtag(idol_group)}" \
         f"{convert_expression_to_hashtag('Kpop')}" \
         f"{convert_expression_to_hashtag('Birthday')}"
 
