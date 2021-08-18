@@ -1,5 +1,5 @@
-import logging
 import os
+import re
 from datetime import datetime
 from typing import Tuple
 
@@ -12,6 +12,9 @@ def convert_expression_to_hashtag(expression: str) -> str:
         return "#" + "".join(char for char in expression if char.isalnum()) + " "
     else:
         return ""
+
+def remove_extra_space(text: str) -> str:
+    return re.sub(r'\s+', ' ', text)
 
 
 def get_seoul_current_date() -> Tuple[int, int]:

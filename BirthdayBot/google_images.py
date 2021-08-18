@@ -4,7 +4,7 @@ import random
 
 import requests
 
-from BirthdayBot.utils import download_file_from_url
+from .utils import download_file_from_url, remove_extra_space
 
 API_KEYS = [
     os.getenv("SERPAPI_KEY_1"),
@@ -46,15 +46,9 @@ def get_url_of_random_google_image(query: str, n: int = 10) -> str:
     return random.choice(urls[:n])
 
 
-def generate_google_query_for_idol_picture(idol_name: str, idol_group: str) -> str:
-    if idol_group.strip():
-        return f"{idol_name} {idol_group}"
-    else:
-        return f"{idol_name} kpop"
-
-
 def get_random_idol_picture(idol_name: str, idol_group: str) -> str:
-    query = generate_google_query_for_idol_picture(idol_name, idol_group)
+    query = f"{idol_name} {idol_group} kpop"
+    query = remove_extra_space(query)
 
     return get_url_of_random_google_image(query)
 
@@ -78,5 +72,5 @@ def download_random_idol_picture(idol_name: str, idol_group: str,
             return filename
         except BaseException:
             logging.exception("Couldn't download picture from %s", picture_url)
-    
+
     return None
