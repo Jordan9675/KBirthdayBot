@@ -10,10 +10,8 @@ bot = TwitterBot()
 
 
 def main() -> None:
-    if bot.has_posted_today:
-        # birthdays = get_todays_birthdays()
-        birthdays = [{"idolName": "Umji", "groupName": "Gfriend"}]
-        print(len(birthdays))
+    if not bot.has_posted_today:
+        birthdays = get_todays_birthdays()
         for birthday in birthdays:
             idol_name, idol_group = birthday["idolName"], birthday["groupName"]
             message = generate_birthday_message(idol_name, idol_group)
