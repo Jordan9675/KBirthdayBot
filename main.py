@@ -1,10 +1,10 @@
-from BirthdayBot.birthday import Birthday
+from BirthdayBot.birthday import get_todays_birthdays, generate_birthday_message
 from BirthdayBot.twitter_bot import TwitterBot
 
 bot = TwitterBot()
 
 if __name__ == "__main__" and not bot.has_posted_today:
-    birthdays = Birthday.get_todays_birthdays()
+    birthdays = get_todays_birthdays()
     for birthday in birthdays:
-        message = Birthday.generate_birthday_message(birthday)
+        message = generate_birthday_message(birthday)
         bot.tweet(message)
