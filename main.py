@@ -10,7 +10,7 @@ bot = TwitterBot()
 
 
 def main() -> None:
-    if not bot.has_posted_today:
+    if not bot.has_posted_today():
         birthdays = get_todays_birthdays()
         for birthday in birthdays:
             idol_name, idol_group = birthday["idolName"], birthday["groupName"]
