@@ -36,7 +36,7 @@ def get_urls_from_google_image_api_response(google_response: dict) -> list:
     return [result["original"] for result in results]
 
 
-def get_url_of_random_google_image(query: str, n: int = 10) -> str:
+def get_url_of_random_google_image(query: str, n: int = 5) -> str:
     """Select a random google image url from the n first results"""
     google_image_api_response = request_google_image(query)
     urls = get_urls_from_google_image_api_response(google_image_api_response)
