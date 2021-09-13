@@ -23,11 +23,12 @@ def url_has_extension(url: str, accepted_extensions: list) -> bool:
 def request_google_image(query: str) -> dict:
     """Make a request to the Google Image API"""
     for api_key in API_KEYS:
-        try:
-            url = URL.format(query, api_key)
-            return requests.get(url).json()
-        except BaseException:
-            logging.exception("Couldn't use API Key %s", api_key)
+        url = URL.format(query, api_key)
+        response = requests.get(url).json()
+        if "error" in response:
+            logging.info("Couldn't use API Key %s", api_key)
+        else:
+            return response
 
 
 def get_urls_from_google_image_api_response(google_response: dict) -> list:
