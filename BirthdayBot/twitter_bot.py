@@ -27,7 +27,8 @@ class TwitterBot:
 
     def get_last_post_created_date(self) -> Tuple[int, int]:
         """Return day and month of last tweet"""
-        last_post = self.api.home_timeline(1)[0]
+        last_post = self.api.user_timeline(
+            count=25, include_rts=False, exclude_replies=True)[0]
 
         return last_post.created_at.month, last_post.created_at.day
 
