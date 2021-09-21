@@ -37,21 +37,20 @@ def get_urls_from_google_image_api_response(google_response: dict) -> list:
     return [result["original"] for result in results]
 
 
-def get_url_of_random_google_image(query: str, n: int = 5) -> str:
-    """Select a random google image url from the n first results"""
+def get_url_of_first_google_image_result(query: str) -> str:
     google_image_api_response = request_google_image(query)
     urls = get_urls_from_google_image_api_response(google_image_api_response)
     urls = [url for url in urls if url_has_extension(
         url, VALID_IMG_EXTENSIONS)]
 
-    return random.choice(urls[:n])
+    return urls[0]
 
 
-def get_random_idol_picture(idol_name: str, idol_group: str) -> str:
+def get_idol_picture(idol_name: str, idol_group: str) -> str:
     query = f"{idol_name} {idol_group} kpop"
     query = remove_extra_space(query)
 
-    return get_url_of_random_google_image(query)
+    return get_url_of_first_google_image_result(query)
 
 
 def add_extension_to_filename_given_url(filename: str, url: str) -> str:
@@ -60,10 +59,10 @@ def add_extension_to_filename_given_url(filename: str, url: str) -> str:
             return filename + extension
 
 
-def download_random_idol_picture(idol_name: str, idol_group: str,
-                                 max_retries: int = 3) -> str:
+def download_idol_picture(idol_name: str, idol_group: str,
+                            max_retries: int = 3) -> str:
     """Download random picture from an idol and returns its local path"""
-    picture_url = get_random_idol_picture(idol_name, idol_group)
+    picture_url = get_idol_picture(idol_name, idol_group)
     filename = f"{idol_name}_{idol_group}"
     filename = add_extension_to_filename_given_url(filename, picture_url)
 

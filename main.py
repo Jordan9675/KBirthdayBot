@@ -2,7 +2,7 @@ import logging
 
 from BirthdayBot.birthday import (generate_birthday_message,
                                   get_todays_birthdays)
-from BirthdayBot.google_images import download_random_idol_picture
+from BirthdayBot.google_images import download_idol_picture
 from BirthdayBot.twitter_bot import TwitterBot
 
 logging.basicConfig(level=logging.INFO)
@@ -15,7 +15,7 @@ def main() -> None:
         for birthday in birthdays:
             idol_name, idol_group = birthday["idolName"], birthday["groupName"]
             message = generate_birthday_message(idol_name, idol_group)
-            picture_path = download_random_idol_picture(idol_name, idol_group)
+            picture_path = download_idol_picture(idol_name, idol_group)
             if picture_path is None:
                 bot.tweet(message)
                 logging.info(
