@@ -5,7 +5,8 @@ from typing import Tuple
 import tweepy
 
 from .birthday import seoul_current_day, seoul_current_month
-from .utils import delete_file, get_current_date
+from .utils import delete_file
+from datetime import datetime, timedelta
 
 CONSUMER_KEY = os.getenv("CONSUMER_KEY")
 CONSUMER_SECRET = os.getenv("CONSUMER_SECRET")
@@ -34,12 +35,13 @@ class TwitterBot:
 
     def has_posted_today(self) -> bool:
         """Check whether the bot has already posted today"""
-        current_month, current_day = get_current_date()
+        current_date = datetime.now()
         last_post_month, last_post_day = self.get_last_post_created_date()
-        return (current_month == last_post_month and
-                current_day == last_post_day and
-                current_day == seoul_current_day - 1 and
-                current_month == seoul_current_month)
+
+        return (current_date.month == last_post_month and
+                current_date.day == last_post_day and
+                (current_date + timedelta(days=1)).day == seoul_current_day and
+                (current_date + timedelta(days=1)).month == seoul_current_month)
 
     def upload_media(self, media_path: str) -> int:
         """Upload media to Twitter and returns its Twitter ID"""
