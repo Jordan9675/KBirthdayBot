@@ -49,9 +49,13 @@ class TwitterBot:
         return self.api.media_upload(filename=media_path).media_id
 
     def tweet_with_picture(self, message: str, picture_path: str) -> None:
-        media_id = self.upload_media(media_path=picture_path)
-        self.api.update_status(status=message, media_ids=[media_id])
-        delete_file(picture_path)
+        try:
+            media_id = self.upload_media(media_path=picture_path)
+            self.api.update_status(status=message, media_ids=[media_id])
+        except tweepy.error.TweepError:
+            self.tweet(message)
+        finally:
+            delete_file(picture_path)
 
     def tweet(self, message: str) -> None:
         self.api.update_status(message)

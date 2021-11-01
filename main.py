@@ -18,13 +18,8 @@ def main() -> None:
             picture_path = download_idol_picture(idol_name, idol_group)
             if picture_path is None:
                 bot.tweet(message)
-                logging.info(
-                    "Birthday message posted without picture for %s", idol_name)
             else:
                 bot.tweet_with_picture(message, picture_path)
-                logging.info(
-                    "Birthday message posted with picture for %s", idol_name)
-
     else:
         logging.info("Nothing posted because already posted today")
 
