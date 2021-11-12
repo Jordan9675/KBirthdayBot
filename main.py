@@ -1,9 +1,9 @@
 import logging
 
-from BirthdayBot.birthday import (generate_birthday_message,
-                                  get_todays_birthdays)
-from BirthdayBot.google_images import download_idol_picture
-from BirthdayBot.twitter_bot import TwitterBot
+from birthday_bot.birthday import (generate_birthday_message,
+                                   get_todays_birthdays)
+from birthday_bot.google_images import download_idol_picture
+from birthday_bot.twitter_bot import TwitterBot
 
 logging.basicConfig(level=logging.INFO)
 bot = TwitterBot()
