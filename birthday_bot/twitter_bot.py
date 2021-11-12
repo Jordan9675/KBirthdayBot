@@ -6,7 +6,6 @@ from typing import Tuple
 import pytz
 import tweepy
 
-from birthday_bot.birthday import seoul_current_day, seoul_current_month
 from birthday_bot.utils import delete_file
 
 CONSUMER_KEY = os.getenv("CONSUMER_KEY")
