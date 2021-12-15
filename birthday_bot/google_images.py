@@ -12,7 +12,8 @@ API_KEYS = [
     os.getenv("SERPAPI_KEY_2"),
     os.getenv("SERPAPI_KEY_3"),
     os.getenv("SERPAPI_KEY_4"),
-    os.getenv("SERPAPI_KEY_5")
+    os.getenv("SERPAPI_KEY_5"),
+    os.getenv("SERPAPI_KEY_6")
 ]
 URL = "https://serpapi.com/search?ijn=0&q={}&tbm=isch&hl=en&tbs=isz:m&api_key={}"
 VALID_IMG_EXTENSIONS = [".jpg", ".png", ".jpeg"]
