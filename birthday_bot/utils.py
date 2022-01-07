@@ -1,5 +1,5 @@
-import os
 import re
+import shutil
 from datetime import datetime
 from typing import Tuple
 
@@ -15,7 +15,7 @@ def convert_expression_to_hashtag(expression: str) -> str:
 
 
 def remove_extra_space(text: str) -> str:
-    return re.sub(r'\s+', ' ', text)
+    return re.sub(r"\s+", " ", text)
 
 
 def get_seoul_current_date() -> Tuple[int, int]:
@@ -31,8 +31,8 @@ def download_file_from_url(url: str, filename: str) -> None:
         file.write(response.content)
 
 
-def delete_file(filepath: str) -> None:
+def delete_folder(folder_path: str) -> None:
     try:
-        os.remove(filepath)
+        shutil.rmtree(folder_path)
     except FileNotFoundError:
         pass

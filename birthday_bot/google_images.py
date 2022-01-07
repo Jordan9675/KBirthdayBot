@@ -1,80 +1,38 @@
-import logging
 import os
+import random
 
-import requests
+from google_images_download import google_images_download
 
-from birthday_bot.utils import download_file_from_url, remove_extra_space
+DOWNLOADER_OUTPUT_DIR = "./downloads"
 
-# Specify the name of the environmental variables corresponding to your
-# SERPAPI keys
-API_KEYS = [
-    os.getenv("SERPAPI_KEY_1"),
-    os.getenv("SERPAPI_KEY_2"),
-    os.getenv("SERPAPI_KEY_3"),
-    os.getenv("SERPAPI_KEY_4"),
-    os.getenv("SERPAPI_KEY_5"),
-    os.getenv("SERPAPI_KEY_6")
-]
-URL = "https://serpapi.com/search?ijn=0&q={}&tbm=isch&hl=en&tbs=isz:m&api_key={}"
-VALID_IMG_EXTENSIONS = [".jpg", ".png", ".jpeg"]
+downloader = google_images_download.googleimagesdownload()
 
 
-def url_has_extension(url: str, accepted_extensions: list) -> bool:
-    """Check whether the file's path got one of the extensions"""
-    return any(extension in url.lower() for extension in accepted_extensions)
+def download_image(google_query: str, filetype: str, limit: int, size: str) -> None:
+    """Download images from Google Images"""
+    query = {
+        "keywords": google_query,
+        "format": filetype,
+        "limit": limit,
+        "size": size,
+    }
+    downloader.download(query)
 
 
-def request_google_image(query: str) -> dict:
-    """Make a request to the Google Image API"""
-    for api_key in API_KEYS:
-        url = URL.format(query, api_key)
-        response = requests.get(url).json()
-        if "error" in response:
-            logging.info("Couldn't use API Key %s", api_key)
-        else:
-            return response
+def select_picture_from_folder(folder: str, random_choice: bool) -> str:
+    """Select a picture from a folder, either the first one or a random one
+    if random_choice = True is passed"""
+    pictures = os.listdir(folder)
+    if random_choice:
+        picture = random.choice(pictures)
+    picture = pictures[0]
+    return f"{folder}/{picture}"
 
 
-def get_urls_from_google_image_api_response(google_response: dict) -> list:
-    results = google_response["images_results"]
-
-    return [result["original"] for result in results]
-
-
-def get_url_of_first_google_image_result(query: str) -> str:
-    google_image_api_response = request_google_image(query)
-    urls = get_urls_from_google_image_api_response(google_image_api_response)
-    urls = [url for url in urls if url_has_extension(
-        url, VALID_IMG_EXTENSIONS)]
-
-    return urls[0]
-
-
-def get_idol_picture(idol_name: str, idol_group: str) -> str:
+def download_idol_picture(
+    idol_name: str, idol_group: str, random_choice: bool = False
+) -> str:
+    """Download an idol's pictures and return the path to the downloaded items."""
     query = f"{idol_name} {idol_group} kpop"
-    query = remove_extra_space(query)
-
-    return get_url_of_first_google_image_result(query)
-
-
-def add_extension_to_filename_given_url(filename: str, url: str) -> str:
-    for extension in VALID_IMG_EXTENSIONS:
-        if extension in url:
-            return filename + extension
-
-
-def download_idol_picture(idol_name: str, idol_group: str,
-                          max_retries: int = 3) -> str:
-    """Download random picture from an idol and returns its local path"""
-    picture_url = get_idol_picture(idol_name, idol_group)
-    filename = f"{idol_name}_{idol_group}"
-    filename = add_extension_to_filename_given_url(filename, picture_url)
-
-    for _ in range(max_retries):
-        try:
-            download_file_from_url(picture_url, filename)
-            return filename
-        except BaseException:
-            logging.exception("Couldn't download picture from %s", picture_url)
-
-    return None
+    download_image(google_query=query, filetype="jpg", limit=5, size="medium")
+    return select_picture_from_folder(f"{DOWNLOADER_OUTPUT_DIR}/{query}", random_choice)
