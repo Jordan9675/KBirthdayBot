@@ -20,7 +20,7 @@ def convert_response_to_soup(response: Response) -> BeautifulSoup:
 
 
 def locate_birthday_tables(soup: BeautifulSoup) -> BeautifulSoup:
-    return soup.select("#table_3, #table_1")
+    return soup.select("#table_3, #table_1, #table_2")
 
 
 def locate_rows_from_birthday_tables(tables: BeautifulSoup) -> BeautifulSoup:
