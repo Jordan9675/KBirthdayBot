@@ -16,4 +16,4 @@ soupsieve==2.2.1
 toml==0.10.2
 tweepy==3.10.0
 urllib3==1.26.6
-git+git://github.com/Joeclinton1/google-images-download@patch-1#egg=google-images-download
+git+https://github.com/Joeclinton1/google-images-download@patch-1#egg=google-images-download
