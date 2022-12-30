@@ -1,7 +1,7 @@
 import os
 import random
 
-from google_images_download import google_images_download
+from birthday_bot.google_images_download import google_images_download
 
 DOWNLOADER_OUTPUT_DIR = "./downloads"
 

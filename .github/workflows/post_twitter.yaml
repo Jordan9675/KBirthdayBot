@@ -1,0 +1,32 @@
+name: Twitter Post
+on: 
+  schedule:
+    - cron: "2 15 * * *"
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    environment: kbirthdaybot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+      - name: Setup env
+        run: |
+          sudo apt install python3-venv
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+      - name: Launch bot
+        env: 
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+          CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
+          CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
+        run: |
+          source .venv/bin/activate
+          python main.py
+  
