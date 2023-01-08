@@ -17,8 +17,13 @@ def main() -> None:
         for birthday in birthdays:
             idol_name, idol_group = birthday["idolName"], birthday["groupName"]
             message = generate_birthday_message(idol_name, idol_group)
-            picture_path = download_idol_picture(idol_name, idol_group)
-            bot.tweet_with_picture(message, picture_path)
+            try:
+                picture_path = download_idol_picture(idol_name, idol_group)
+                bot.tweet_with_picture(message, picture_path)
+            except Exception as exc:
+                logging.error(exc)
+                logging.info("Posting without picture.")
+                bot.tweet(message)
         delete_folder(DOWNLOADER_OUTPUT_DIR)
     else:
         logging.info("Nothing posted because already posted today")
