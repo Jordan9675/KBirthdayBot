@@ -10,6 +10,7 @@ CONSUMER_KEY = os.getenv("CONSUMER_KEY")
 CONSUMER_SECRET = os.getenv("CONSUMER_SECRET")
 ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 ACCESS_TOKEN_SECRET = os.getenv("ACCESS_TOKEN_SECRET")
+BEARER_TOKEN = os.getenv("BEARER_TOKEN")
 SEOUL_TIMEZONE = pytz.timezone("Asia/Seoul")
 
 
@@ -18,16 +19,12 @@ class TwitterBot:
         self.authenticate()
 
     def authenticate(self) -> None:
-        self.auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-        self.auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-        self.api = tweepy.API(
-            self.auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True
-        )
+        self.client = tweepy.Client(BEARER_TOKEN, CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
         logging.info("Successfully authenticated")
 
     def get_last_post_created_date(self) -> Tuple[int, int]:
         """Return date of last tweet (Seoul time)"""
-        last_post = self.api.user_timeline(
+        last_post = self.client.user_timeline(
             count=25, include_rts=False, exclude_replies=True
         )[0].created_at
 
@@ -43,14 +40,14 @@ class TwitterBot:
     def upload_media(self, media_path: str) -> int:
         """Upload media to Twitter and returns its Twitter ID"""
 
-        return self.api.media_upload(filename=media_path).media_id
+        return self.client.media_upload(filename=media_path).media_id
 
     def tweet_with_picture(self, message: str, picture_path: str) -> None:
         try:
             media_id = self.upload_media(media_path=picture_path)
-            self.api.update_status(status=message, media_ids=[media_id])
+            self.client.update_status(status=message, media_ids=[media_id])
         except tweepy.error.TweepError:
             self.tweet(message)
 
     def tweet(self, message: str) -> None:
-        self.api.update_status(message)
+        self.client.create_tweet(text=message)

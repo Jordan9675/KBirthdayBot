@@ -12,21 +12,21 @@ bot = TwitterBot()
 
 
 def main() -> None:
-    if not bot.has_posted_today():
-        birthdays = get_todays_birthdays()
-        for birthday in birthdays:
-            idol_name, idol_group = birthday["idolName"], birthday["groupName"]
-            message = generate_birthday_message(idol_name, idol_group)
-            try:
-                picture_path = download_idol_picture(idol_name, idol_group)
-                bot.tweet_with_picture(message, picture_path)
-            except Exception as exc:
-                logging.error(exc)
-                logging.info("Posting without picture.")
-                bot.tweet(message)
-        delete_folder(DOWNLOADER_OUTPUT_DIR)
-    else:
-        logging.info("Nothing posted because already posted today")
+    #if not bot.has_posted_today():
+    birthdays = get_todays_birthdays()
+    for birthday in birthdays:
+        idol_name, idol_group = birthday["idolName"], birthday["groupName"]
+        message = generate_birthday_message(idol_name, idol_group)
+        try:
+            # picture_path = download_idol_picture(idol_name, idol_group)
+            #bot.tweet_with_picture(message, picture_path)
+            bot.tweet(message)
+        except Exception as exc:
+            logging.error(exc)
+            logging.info("Posting without picture.")
+            bot.tweet(message)
+    delete_folder(DOWNLOADER_OUTPUT_DIR)
+
 
 
 if __name__ == "__main__":
