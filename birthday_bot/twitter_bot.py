@@ -50,4 +50,4 @@ class TwitterBot:
             self.tweet(message)
 
     def tweet(self, message: str) -> None:
-        self.client.create_tweet(message)
+        self.client.create_tweet(text=message)

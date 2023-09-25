@@ -1,0 +1,6 @@
+api key bzuryfpYL4tQgQF5CyKkY6dzm
+api key secret ZvXBgTY81eak8segfqCj6DgBdg3HjO5vAmPxQmguucTwFfXWnG
+
+access token 1419037142190366724-TZnKUXqCDJiWbw720YoO1mzRYzXGfm
+access token secret 8HuW6zX2NMbPaJY4Juat4HoWpCUEZIxEnJMx90xgav30x
+bearer AAAAAAAAAAAAAAAAAAAAAKqjngEAAAAA48Puq9HHpILy8Am1G%2FKMAzGlJQs%3DHHlwYm55jzA9o3CwtW6GcZGhiUGl2pTlD5hK32anFnaYcL9A0S
