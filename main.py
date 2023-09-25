@@ -18,8 +18,9 @@ def main() -> None:
         idol_name, idol_group = birthday["idolName"], birthday["groupName"]
         message = generate_birthday_message(idol_name, idol_group)
         try:
-            picture_path = download_idol_picture(idol_name, idol_group)
-            bot.tweet_with_picture(message, picture_path)
+            # picture_path = download_idol_picture(idol_name, idol_group)
+            #bot.tweet_with_picture(message, picture_path)
+            bot.tweet(message)
         except Exception as exc:
             logging.error(exc)
             logging.info("Posting without picture.")
