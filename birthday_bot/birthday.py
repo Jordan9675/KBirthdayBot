@@ -36,11 +36,8 @@ def parse_column_values(column_values: list) -> dict:
     return {
         "groupName": column_values[1].text,
         "idolName": column_values[2].text,
-        "birthYear": int(column_values[4].text),
         "birthMonth": int(column_values[5].text),
         "birthDay": int(column_values[6].text),
-        "age": int(column_values[7].text),
-        "gender": column_values[8].text
     }
 
 
